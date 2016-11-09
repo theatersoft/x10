@@ -1,0 +1,9 @@
+{
+  "name": "x10-test",
+  "version": "1.0.0",
+  "author": "Rob Huehn <rob@theatersoft.com>",
+  "scripts": {
+    "debug-x10": "node --inspect=10000 --debug-brk start-x10.js",
+    "x10": "node start-x10.js"
+  }
+}
