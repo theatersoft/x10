@@ -1,15 +1,11 @@
-'use strict'
-var
-//log = require('./Log'),
-    usb = require('usb'),
-    emitter = new (require('bus/src/EventEmitter'))()
+import usb from 'usb'
+import {EventEmitter} from '@theatersoft/bus'
 
 //usb.setDebugLevel(4)
-var
-    x10, rx, tx,
-    rxAddress   // address first packet, function next packet
+let x10, rx, tx, rxAddress   // address first packet, function next packet
 
 const
+    emitter = new EventEmitter(),
     decodePL = data => {
         if (data[1] === 0x02 && data.length == 4) {
             if (data[2] === 0x00) {  // Address
@@ -193,4 +189,5 @@ emitter.sendCommand = str => {
     const [, type, house, unit, func] = /^(PL|RF)\s([A-P])([1-8])\s([A-Z]+)$/.exec(name)
     console.log(sendCommand, {type, house, unit, func})
 }
-module.exports = emitter
+
+export default emitter

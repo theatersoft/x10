@@ -8,6 +8,8 @@
     "build:dist": "DIST=true npm run build",
     "link": "npm link; npm link @theatersoft/x10 @theatersoft/bus",
     "bus:start": "npm explore @theatersoft/bus -- npm run start",
+    "start": "node dist/start.js",
+    "debug": "node --inspect dist/start.js",
     "watch": "node build.js watch"
   },
   "author": "Rob Huehn <rob@theatersoft.com>",
