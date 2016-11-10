@@ -185,9 +185,11 @@ if (process.env.mode === 'TEST') {
 } else console.log('PROD mode')
 
 emitter.init = init
-emitter.sendCommand = str => {
-    const [, type, house, unit, func] = /^(PL|RF)\s([A-P])([1-8])\s([A-Z]+)$/.exec(name)
-    console.log(sendCommand, {type, house, unit, func})
+emitter.sendCommand = cmd => {
+    const [, type, house, unit, func] = /^(PL|RF)\s([A-P])([1-8])\s([A-Z]+)$/.exec(cmd)
+    console.log('sendCommand', {type, house, unit, func})
+
+    //const data = type === 'PL' ? encodePLUnit()
 }
 
 export default emitter

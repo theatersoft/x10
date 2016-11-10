@@ -8,8 +8,12 @@ export class X10 {
             .then(() => {
                 codec.init({vid, pid})
                 codec.on('rx', r =>
-                    bus.signal(`${name}.rx`, r))
+                    bus.signal(`/${name}.rx`, r))
             })
+    }
+
+    send (cmd) {
+        codec.sendCommand(cmd)
     }
 }
 

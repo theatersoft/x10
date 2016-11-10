@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "author": "Rob Huehn <rob@theatersoft.com>",
   "scripts": {
-    "debug-x10": "node --inspect=10000 --debug-brk start-x10.js",
-    "x10": "node start-x10.js"
+    "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
+    "DEBUG": "npm run BUS -- node --inspect --debug-brk",
+    "RUN": "npm run BUS -- node",
+    "pl-a2-on": "npm run RUN -- pl-a2-on.js"
   }
 }

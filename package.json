@@ -4,12 +4,16 @@
   "description": "",
   "main": "dist/x10.js",
   "scripts": {
+    "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
+    "DEBUG": "npm run BUS -- node --inspect --debug-brk",
+    "RUN": "npm run BUS -- node",
     "build": "time -p node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
     "link": "npm link; npm link @theatersoft/x10 @theatersoft/bus",
     "bus:start": "npm explore @theatersoft/bus -- npm run start",
-    "start": "node dist/start.js",
-    "debug": "node --inspect dist/start.js",
+    "start": "npm run RUN -- dist/start.js",
+    "debug": "npm run DEBUG -- dist/start.js",
+    "publish": "node build.js publish",
     "watch": "node build.js watch"
   },
   "author": "Rob Huehn <rob@theatersoft.com>",
