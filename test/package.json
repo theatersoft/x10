@@ -6,6 +6,7 @@
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
     "DEBUG": "npm run BUS -- node --inspect --debug-brk",
     "RUN": "npm run BUS -- node",
-    "pl-a2-on": "npm run RUN -- pl-a2-on.js"
+    "pl-a2-on": "npm run RUN -- pl-a2-on.js",
+    "pl-a2-off": "npm run RUN -- pl-a2-off.js"
   }
 }

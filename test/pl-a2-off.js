@@ -5,5 +5,5 @@ const
     X10 = proxy('X10')
 
 bus.start().then(() =>
-    X10.send('RF A2 ON')
+    X10.send('RF A2 OFF')
 )

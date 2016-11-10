@@ -135,7 +135,9 @@ var
     },
     addrToString = (house, unit) => String.fromCharCode(house + 65) + String.fromCharCode(unit + 49),
     funcToString = func => getKeyByValue(FUNC, func) || '???',
-    getKeyByValue = (obj, value) => {for (let key of Object.keys(obj)) if (obj[key] === value) return key}
+    getKeyByValue = (obj, value) => {for (let key of Object.keys(obj)) if (obj[key] === value) return key},
+    stringToAddr = s => ([s.charCodeAt(0) - 65, s.charCodeAt(1) - 49]),
+    stringToFunc = s => FUNC[s]
 
 //    init = () => {
 //        let bin = [
@@ -186,10 +188,11 @@ if (process.env.mode === 'TEST') {
 
 emitter.init = init
 emitter.sendCommand = cmd => {
-    const [, type, house, unit, func] = /^(PL|RF)\s([A-P])([1-8])\s([A-Z]+)$/.exec(cmd)
-    console.log('sendCommand', {type, house, unit, func})
-
-    //const data = type === 'PL' ? encodePLUnit()
+    const [match, type, addr, func] = /^(PL|RF)\s([A-P][1-8])\s([A-Z]+)$/.exec(cmd) || []
+    if (!match) throw 'invalid command'
+    const data = (type === 'PL' ? encodePLUnit : encodeRFUnit)(...stringToAddr(addr), stringToFunc(func))
+    console.log('sendCommand', {type, addr, func, data})
+    tx.transfer(data, err => console.log('TX DONE', err || ''))
 }
 
 export default emitter
