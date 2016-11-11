@@ -1,6 +1,4 @@
-import usb from 'usb'
-import {EventEmitter} from '@theatersoft/bus'
-
+'use strict'
 const
     CMD = {
         STATUS: 0x8b,
@@ -99,57 +97,15 @@ const
     rf = s => {log(decodeRF(log(fromHexString(s)))); console.log()},
     pl = s => {log(decodePL(log(fromHexString(s)))); console.log()}
 
-//usb.setDebugLevel(4)
-let x10, rx, tx
-const
-    emitter = new EventEmitter(),
-    init = ({vid = 0x0bc7, pid = 0x0001} = {}) => {
-        console.log('x10 init', vid, pid)
-        x10 = usb.findByIds(vid, pid)
-        x10.open()
-        let intf = x10.interfaces[0]
-        intf.claim()
-        rx = intf.endpoint(0x81) // from controller
-        tx = intf.endpoint(0x02) // to controller
+rf('5d 20 60 9f 20 df') // A1 OFF
+rf('5d 20 70 8f 20 df') // B1 OFF
+rf('5d 20 60 9f 30 cf') // A2 OFF
+rf('5d 20 60 9f 00 ff') // A1 ON
 
-        rx.on('data', data => {
-            console.log('RX', data)
-            let r
-            switch (data[0]) {
-                case 0x55: // ACK
-                    console.log('RX ACK')
-                    return
-                case 0xa5: // set clock
-                    send(encodeSetClock())
-                    return
-                case 0x5a: // PL
-                    r = decodePL(data)
-                    break
-                case 0x5d: // RF
-                    r = decodeRF(data)
-                    break
-            }
-            if (r) {
-                console.log('RX', r.type, r.addr, r.func)
-                emitter.emit('rx', r)
-            }
-        })
-        rx.on('end', () => console.log('RX END'))
-        rx.on('error', err => console.log('RX ERROR', err))
-        rx.startPoll()
-    },
-    send = data => {
-        console.log('TX', data)
-        tx.transfer(data, err => console.log('TX DONE', err || ''))
-    }
+rf('5d 20 60 9f 98 67') // DIM
+rf('5d 20 60 9f 88 77') // BRIGHT
 
-emitter.init = init
-emitter.sendCommand = cmd => {
-    const [match, type, addr, func] = /^(PL|RF)\s([A-P][1-8])\s([A-Z]+)$/.exec(cmd) || []
-    if (!match) throw 'invalid command'
-    const data = (type === 'PL' ? encodePLUnit : encodeRFUnit)(...stringToAddr(addr), stringToFunc(func))
-    console.log('sendCommand', {type, addr, func, data})
-    tx.transfer(data, err => console.log('TX DONE', err || ''))
-}
-
-export default emitter
+//pl('5a 02 00 62')
+//pl('5a 02 01 63') // A3 OFF
+//pl('5a 02 00 62')
+//pl('5a 02 01 63') // A3 OFF

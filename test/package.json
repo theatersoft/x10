@@ -7,6 +7,8 @@
     "DEBUG": "npm run BUS -- node --inspect --debug-brk",
     "RUN": "npm run BUS -- node",
     "pl-a2-on": "npm run RUN -- pl-a2-on.js",
-    "pl-a2-off": "npm run RUN -- pl-a2-off.js"
+    "pl-a3-on": "npm run RUN -- pl-a3-on.js",
+    "pl-a2-off": "npm run RUN -- pl-a2-off.js",
+    "test-codec": "node test-codec.js"
   }
 }
