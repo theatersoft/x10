@@ -73,7 +73,8 @@ const
     },
     decHouseRF = a => INV_ADDR_RF[a >> 4],
     decUnitRF = (a, b) => (a & 1<<2) << 1 | (b & 1<<6) >> 4 | (b & 1<<3) >> 2 | (b & 1<<4) >> 4,
-    decodeRF = ([x, y, a, _a, b, _b]) => {
+    decodeRF = data => {
+        const [x, y, a, _a, b, _b] = data
         if ((a ^ _a) !== 0xff || (b ^ _b) !== 0xff) {
             console.log('RX RF bad checksum', data)
             return
