@@ -18,7 +18,7 @@ const
                 //presets: [babili],
                 plugins: [
                     require("babel-plugin-minify-constant-folding"),
-                    require("babel-plugin-minify-dead-code-elimination"),
+                    //require("babel-plugin-minify-dead-code-elimination"), // FAIL NodePath has been removed so is read-only
                     require("babel-plugin-minify-flip-comparisons"),
                     require("babel-plugin-minify-guarded-expressions"),
                     require("babel-plugin-minify-infinity"),
