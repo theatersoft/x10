@@ -23,6 +23,7 @@
     "usb": "^1.1.2"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-babili": "0.0.3",
     "rollup": "^0.36.0",
     "rollup-plugin-babel": "^2.6.1",

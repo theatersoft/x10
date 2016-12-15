@@ -55,7 +55,7 @@ const
 
 const
     ADDR_RF = [6, 7, 4, 5, 8, 9, 10, 11, 14, 15, 12, 13, 0, 1, 2, 3],
-    INV_ADDR_RF = [12, 13, 14, 15, 2, 3, 0, 1, 4, 5, 6, 7, 10, 11, 8, 9 ],
+    INV_ADDR_RF = [12, 13, 14, 15, 2, 3, 0, 1, 4, 5, 6, 7, 10, 11, 8, 9],
     encodeRFUnit = (house, unit, func) => {
         var buf = [CMD.SENDRF, 0x20, ADDR[house] << 4 | (unit & 8) >> 1, 0, 0, 0]
         switch (func) {
@@ -72,7 +72,7 @@ const
         return new Buffer(buf)
     },
     decHouseRF = a => INV_ADDR_RF[a >> 4],
-    decUnitRF = (a, b) => (a & 1<<2) << 1 | (b & 1<<6) >> 4 | (b & 1<<3) >> 2 | (b & 1<<4) >> 4,
+    decUnitRF = (a, b) => (a & 1 << 2) << 1 | (b & 1 << 6) >> 4 | (b & 1 << 3) >> 2 | (b & 1 << 4) >> 4,
     decodeRF = data => {
         const [x, y, a, _a, b, _b] = data
         if ((a ^ _a) !== 0xff || (b ^ _b) !== 0xff) {
@@ -80,13 +80,13 @@ const
             return
         }
         let house = 0, unit = 0, func
-        if (b & 1<<7) { // BRIGHT or DIM
-            func = b & 1<<4 ? FUNC.DIM : FUNC.BRIGHT
+        if (b & 1 << 7) { // BRIGHT or DIM
+            func = b & 1 << 4 ? FUNC.DIM : FUNC.BRIGHT
         }
         else {
             house = decHouseRF(a)
             unit = decUnitRF(a, b)
-            func = b & 1<<5 ? FUNC.OFF : FUNC.ON
+            func = b & 1 << 5 ? FUNC.OFF : FUNC.ON
         }
         return {
             type: 'RF',
@@ -96,9 +96,18 @@ const
     }
 
 const
-    log = s => {console.log(s); return s},
-    rf = s => {log(decodeRF(log(fromHexString(s)))); console.log()},
-    pl = s => {log(decodePL(log(fromHexString(s)))); console.log()}
+    log = s => {
+        console.log(s);
+        return s
+    },
+    rf = s => {
+        log(decodeRF(log(fromHexString(s))));
+        console.log()
+    },
+    pl = s => {
+        log(decodePL(log(fromHexString(s))));
+        console.log()
+    }
 
 //usb.setDebugLevel(4)
 let x10, rx, tx
@@ -117,18 +126,18 @@ const
             console.log('RX', data)
             let r
             switch (data[0]) {
-                case 0x55: // ACK
-                    console.log('RX ACK')
-                    return
-                case 0xa5: // set clock
-                    send(encodeSetClock())
-                    return
-                case 0x5a: // PL
-                    r = decodePL(data)
-                    break
-                case 0x5d: // RF
-                    r = decodeRF(data)
-                    break
+            case 0x55: // ACK
+                console.log('RX ACK')
+                return
+            case 0xa5: // set clock
+                send(encodeSetClock())
+                return
+            case 0x5a: // PL
+                r = decodePL(data)
+                break
+            case 0x5d: // RF
+                r = decodeRF(data)
+                break
             }
             if (r) {
                 console.log('RX', r.type, r.addr, r.func)
@@ -150,7 +159,14 @@ emitter.sendCommand = cmd => {
     if (!match) throw 'invalid command'
     const data = (type === 'PL' ? encodePLUnit : encodeRFUnit)(...stringToAddr(addr), stringToFunc(func))
     console.log('sendCommand', {type, addr, func, data})
-    tx.transfer(data, err => console.log('TX DONE', err || ''))
+    return new Promise((r, j) =>
+        tx.transfer(data,
+            err => {
+                console.log('TX DONE', err || '')
+                if (err) j(err)
+                r()
+            })
+        )
 }
 
 export default emitter
