@@ -2,6 +2,7 @@ import usb from 'usb'
 import codec from './codec'
 import Store from './Store'
 import bus, {EventEmitter} from '@theatersoft/bus'
+import {command} from './actions'
 
 export class X10 {
     start ({name, config: {vid, pid, devices}}) {
@@ -22,7 +23,13 @@ export class X10 {
     }
 
     dispatch (action) {
-        return this.store.dispatch(action)
+        return command(action)
+            .then(() =>
+                this.store.dispatch(action))
+    }
+
+    getState () {
+        return this.store.getState()
     }
 }
 
