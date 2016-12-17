@@ -19,11 +19,11 @@ export class X10 {
     }
 
     send (cmd) {
-        codec.sendCommand(cmd)
+        return codec.sendCommand(cmd)
     }
 
     dispatch (action) {
-        return command(action)
+        return this.send(command(action))
             .then(() =>
                 this.store.dispatch(action))
     }

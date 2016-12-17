@@ -16,7 +16,7 @@ export class Store extends EventEmitter {
         const last = this.state
         this.state = this.reducer(last, action)
         if (this.state !== last) {
-            this.emit('change')
+            this.emit('change', this.state)
         }
     }
 }
