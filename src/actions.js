@@ -1,11 +1,16 @@
-export const ON = 'ON'
-export const OFF = 'OFF'
-export const BRIGHT = 'BRIGHT'
-export const DIM = 'DIM'
+export const
+    INIT_DEVICES = 'INIT_DEVICES',
+    initDevices = devices => ({type: INIT_DEVICES, devices})
 
-export const on = id => ({type: ON, id})
-export const off = id => ({type: OFF, id})
-export const bright = (id, n) => ({type: BRIGHT, id, n})
-export const dim = (id, n) => ({type: DIM, id, n})
+export const
+    ON = 'ON',
+    OFF = 'OFF',
+    BRIGHT = 'BRIGHT',
+    DIM = 'DIM'
+export const
+    on = id => ({type: ON, id}),
+    off = id => ({type: OFF, id}),
+    bright = (id, n) => ({type: BRIGHT, id, n}),
+    dim = (id, n) => ({type: DIM, id, n})
 
 export const command = action => `RF ${action.id} ${action.type}`
