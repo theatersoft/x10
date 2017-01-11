@@ -11,7 +11,7 @@ export class X10 {
                 store.dispatch(initDevices(devices))
                 devices.forEach(dev => store.dispatch(off(dev.id)))
                 store.subscribe(() =>
-                    bus.signal(`/${name}.change`, store.getState()))
+                    bus.signal(`/${name}.state`, store.getState()))
                 codec.init({vid, pid})
                 codec.on('rx', r =>
                     bus.signal(`/${name}.rx`, r))

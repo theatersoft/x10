@@ -1,6 +1,6 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "dist/x10.js",
   "scripts": {
