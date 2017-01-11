@@ -9,21 +9,18 @@ function reducer (state, action) {
     case INIT_DEVICES:
         return {...state, devices: action.devices}
     case ON:
-        return {
-            ...state,
-            [action.id]: {value: true, action: off(action.id)}
-        }
     case OFF:
-        return {
-            ...state,
-            [action.id]: {value: false, action: on(action.id)}
-        }
+        if (action.type === ON !== state.values[action.id])
+            return {
+                ...state,
+                values: {...state.values, [action.id]: action.type === ON}
+            }
     }
     return state
 }
 
 export default createStore(
     reducer,
-    {devices: []},
+    {devices: [], values: {}},
     devToolsEnhancer({name: 'X10', realtime: true, port: 6400})
 )
