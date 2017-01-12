@@ -17,7 +17,9 @@ export class X10 {
                 codec.on('rx', r =>
                     bus.signal(`/${name}.rx`, r))
                 codec.on('action', store.dispatch.bind(store))
-                bus.proxy('Device').registerService(this.name)
+                const register = () => bus.proxy('Device').registerService(this.name)
+                bus.registerListener(`/Device.started`, register)
+                register()
             })
     }
 
