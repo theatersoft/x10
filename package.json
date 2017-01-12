@@ -16,8 +16,7 @@
     "start:dev": "npm run DEVRUN -- dist/start.js",
     "debug": "npm run BUS -- node --inspect --debug-brk dist/start.js",
     "debug:dev": "npm run DEVBUS -- node --inspect --debug-brk dist/start.js",
-    "publish": "node build.js publish",
-    "watch": "node build.js watch"
+    "publish": "node build.js publish"
   },
   "author": "Rob Huehn <rob@theatersoft.com>",
   "license": "AGPL-3.0",
@@ -32,7 +31,8 @@
     "remote-redux-devtools": "^0.5.7",
     "rollup": "^0.36.0",
     "rollup-plugin-babel": "^2.6.1",
-    "shelljs": "^0.7.4",
-    "watch": "^1.0.1"
+    "rollup-plugin-ignore": "^1.0.3",
+    "rollup-plugin-strip": "^1.1.1",
+    "shelljs": "^0.7.4"
   }
 }
