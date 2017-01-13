@@ -4,16 +4,28 @@ import devToolsEnhancer from 'remote-redux-devtools'
 import {ON, on, OFF, off} from './actions'
 import {INIT_DEVICES} from './actions'
 
-function reducer (state, action) {
-    switch (action.type) {
+const index = arr => arr.reduce((o, e) => {
+    o[e.id] = e;
+    return o
+}, {})
+
+function reducer (state, {type, devices, id}) {
+    switch (type) {
     case INIT_DEVICES:
-        return {...state, devices: action.devices}
+        return {
+            ...state,
+            devices: index(devices)
+        }
     case ON:
     case OFF:
-        if (action.type === ON !== state.values[action.id])
+        const device = state.devices[id]
+        if (device && type === ON !== device.value)
             return {
                 ...state,
-                values: {...state.values, [action.id]: action.type === ON}
+                devices: {
+                    ...state.devices,
+                    [id]: {...device, value: type === ON}
+                }
             }
     }
     return state
@@ -21,6 +33,6 @@ function reducer (state, action) {
 
 export default createStore(
     reducer,
-    {devices: [], values: {}},
+    {devices: {}},
     devToolsEnhancer({name: 'X10', realtime: true, port: 6400})
 )
