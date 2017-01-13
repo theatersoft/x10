@@ -1,7 +1,6 @@
-import usb from 'usb'
 import codec from './codec'
 import store from './store'
-import bus, {EventEmitter} from '@theatersoft/bus'
+import bus from '@theatersoft/bus'
 import {initDevices, command, off} from './actions'
 
 export class X10 {
