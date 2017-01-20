@@ -4,10 +4,7 @@ import devToolsEnhancer from 'remote-redux-devtools'
 import {ON, on, OFF, off} from './actions'
 import {INIT_DEVICES} from './actions'
 
-const index = arr => arr.reduce((o, e) => {
-    o[e.id] = e;
-    return o
-}, {})
+const index = arr => arr.reduce((o, e) => (o[e.id] = e, o), {})
 
 function reducer (state, {type, devices, id}) {
     switch (type) {
