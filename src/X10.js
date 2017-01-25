@@ -1,5 +1,7 @@
 import codec from './codec'
-import store from './store'
+import {createStore} from 'redux'
+import devToolsEnhancer from 'remote-redux-devtools'
+import reducer from './reducer'
 import bus from '@theatersoft/bus'
 import {initDevices, command, off} from './actions'
 
@@ -8,14 +10,18 @@ export class X10 {
         this.name = name
         return bus.registerObject(name, this)
             .then(() => {
-                store.dispatch(initDevices(devices))
-                devices.forEach(dev => store.dispatch(off(dev.id)))
-                store.subscribe(() =>
-                    bus.signal(`/${name}.state`, store.getState()))
+                this.store = createStore(
+                    reducer,
+                    {devices: {}},
+                    devToolsEnhancer({name: 'X10', realtime: true, port: 6400})
+                )
+                this.store.dispatch(initDevices(devices))
+                devices.forEach(dev => this.store.dispatch(off(dev.id)))
+                this.store.subscribe(() =>
+                    bus.signal(`/${name}.state`, this.store.getState()))
                 codec.init({vid, pid})
-                codec.on('rx', r =>
-                    bus.signal(`/${name}.rx`, r))
-                codec.on('action', store.dispatch.bind(store))
+                //codec.on('rx', r => bus.signal(`/${name}.rx`, r))
+                codec.on('action', this.store.dispatch.bind(this.store))
                 const register = () => bus.proxy('Device').registerService(this.name)
                 bus.registerListener(`/Device.started`, register)
                 register()
@@ -29,10 +35,10 @@ export class X10 {
     dispatch (action) {
         return this.send(command(action))
             .then(() =>
-                store.dispatch(action))
+                this.store.dispatch(action))
     }
 
     getState () {
-        return store.getState()
+        return this.store.getState()
     }
 }
