@@ -6,14 +6,14 @@ import bus from '@theatersoft/bus'
 import {initDevices, command, off} from './actions'
 
 export class X10 {
-    start ({name, config: {vid, pid, devices}}) {
+    start ({name, config: {vid, pid, devices, remotedev: hostname = 'localhost'}}) {
         this.name = name
         return bus.registerObject(name, this)
             .then(() => {
                 this.store = createStore(
                     reducer,
                     {devices: {}},
-                    devToolsEnhancer({name: 'X10', realtime: true, port: 6400})
+                    devToolsEnhancer({name: 'X10', realtime: true, port: 6400, hostname})
                 )
                 this.store.dispatch(initDevices(devices))
                 devices.forEach(dev => this.store.dispatch(off(dev.id)))
