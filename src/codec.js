@@ -155,7 +155,7 @@ const
 
 emitter.init = init
 emitter.sendCommand = cmd => {
-    const [match, type, addr, func] = /^(PL|RF)\s([A-P][1-8])\s([A-Z]+)$/.exec(cmd) || []
+    const [match, type, addr, func] = /^(PL|RF)\s([A-P][1-9]|[A-P]1[0-6])\s([A-Z]+)$/.exec(cmd) || []
     if (!match) throw 'invalid command'
     const data = (type === 'PL' ? encodePLUnit : encodeRFUnit)(...stringToAddr(addr), stringToFunc(func))
     console.log('sendCommand', {type, addr, func, data})
