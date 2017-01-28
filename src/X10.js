@@ -9,7 +9,7 @@ export class X10 {
     start ({name, config: {vid, pid, devices, remotedev: hostname = 'localhost'}}) {
         this.name = name
         return bus.registerObject(name, this)
-            .then(() => {
+            .then(obj => {
                 this.store = createStore(
                     reducer,
                     {devices: {}},
@@ -18,12 +18,11 @@ export class X10 {
                 this.store.dispatch(initDevices(devices))
                 devices.forEach(dev => this.store.dispatch(off(dev.id)))
                 this.store.subscribe(() =>
-                    bus.signal(`/${name}.state`, this.store.getState()))
+                    obj.signal('state', this.store.getState()))
                 codec.init({vid, pid})
-                //codec.on('rx', r => bus.signal(`/${name}.rx`, r))
                 codec.on('action', this.store.dispatch.bind(this.store))
                 const register = () => bus.proxy('Device').registerService(this.name)
-                bus.registerListener(`/Device.started`, register)
+                bus.registerListener(`Device.start`, register)
                 bus.on('reconnect', register)
                 register()
             })
