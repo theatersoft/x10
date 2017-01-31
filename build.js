@@ -21,6 +21,7 @@ const targets = {
                 entry: 'src/X10.js',
                 external: [
                     'redux',
+                    'redux-thunk',
                     !DIST && 'remote-redux-devtools',
                     //'util',
                     ...Object.keys(pkg.dependencies)
@@ -53,7 +54,7 @@ const targets = {
                         ] : [])
                     }),
                     DIST && ignore(['remote-redux-devtools']),
-                    DIST && strip({functions: ['devToolsEnhancer']})
+                    DIST && strip({functions: ['composeWithDevTools']})
                 ]
             })
             .then(bundle => {
