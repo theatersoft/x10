@@ -14,3 +14,7 @@ export const
     dim = (id, n) => ({type: DIM, id, n})
 
 export const command = action => `RF ${action.id} ${action.type}`
+
+export const
+    RX = 'RX',
+    rx = (type, addr, func) => ({type: RX, rf: type === 'RF', addr, func})

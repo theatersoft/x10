@@ -3,7 +3,7 @@ import {createStore} from 'redux'
 import devToolsEnhancer from 'remote-redux-devtools'
 import reducer from './reducer'
 import bus from '@theatersoft/bus'
-import {initDevices, command, off} from './actions'
+import {initDevices, command, off, rx} from './actions'
 
 export class X10 {
     start ({name, config: {vid, pid, devices, remotedev: hostname = 'localhost'}}) {
@@ -20,7 +20,7 @@ export class X10 {
                 this.store.subscribe(() =>
                     obj.signal('state', this.store.getState()))
                 codec.init({vid, pid})
-                codec.on('action', this.store.dispatch.bind(this.store))
+                codec.on('rx', action => this.store.dispatch(rx(action)))
                 const register = () => bus.proxy('Device').registerService(this.name)
                 bus.registerListener(`Device.start`, register)
                 bus.on('reconnect', register)
