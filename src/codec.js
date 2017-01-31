@@ -110,14 +110,14 @@ const
     }
 
 //usb.setDebugLevel(4)
-let x10, rx, tx
+let x10, intf, rx, tx
 const
     emitter = new EventEmitter(),
     init = ({vid = 0x0bc7, pid = 0x0001} = {}) => {
         console.log('x10 init', vid, pid)
         x10 = usb.findByIds(vid, pid)
         x10.open()
-        let intf = x10.interfaces[0]
+        intf = x10.interfaces[0]
         intf.claim()
         rx = intf.endpoint(0x81) // from controller
         tx = intf.endpoint(0x02) // to controller
@@ -151,9 +151,17 @@ const
     send = data => {
         console.log('TX', data)
         tx.transfer(data, err => console.log('TX DONE', err || ''))
+    },
+    close = () => {
+        intf.release(true, err => {
+            if (err) console.log('Interface release error', err)
+            x10.close()
+        })
+        return Promise.resolve()
     }
 
 emitter.init = init
+emitter.close = close
 emitter.sendCommand = cmd => {
     const [match, type, addr, func] = /^(PL|RF)\s([A-P][1-9]|[A-P]1[0-6])\s([A-Z]+)$/.exec(cmd) || []
     if (!match) throw 'invalid command'

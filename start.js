@@ -10,4 +10,6 @@ require('@theatersoft/bus').default.start()
                         .find(({name}) => name === 'X10'),
                     service = new (require(options.module)[options.export])()
                 service.start(options)
+                process.on('SIGINT', () =>
+                    service.stop().then(() => process.exit()))
             }))

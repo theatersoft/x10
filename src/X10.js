@@ -28,6 +28,11 @@ export class X10 {
             })
     }
 
+    stop () {
+        return codec.close()
+            .then(() => bus.unregisterObject(this.name))
+    }
+
     send (cmd) {
         return codec.sendCommand(cmd)
     }
