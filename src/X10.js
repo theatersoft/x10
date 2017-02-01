@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'remote-redux-devtools'
 import reducer from './reducer'
 import bus from '@theatersoft/bus'
-import {initDevices, command, off, rx} from './actions'
+import {initDevices, off, rx, api} from './actions'
 
 export class X10 {
     start ({name, config: {vid, pid, devices, remotedev: hostname = 'localhost'}}) {
@@ -40,9 +40,7 @@ export class X10 {
     }
 
     dispatch (action) {
-        return this.send(command(action))
-            .then(() =>
-                this.store.dispatch(action))
+        return this.store.dispatch(api(action))
     }
 
     getState () {
