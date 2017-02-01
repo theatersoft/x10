@@ -22,7 +22,7 @@ export class X10 {
                 this.store.subscribe(() =>
                     obj.signal('state', this.store.getState()))
                 codec.init({vid, pid})
-                codec.on('rx', action => this.store.dispatch(rx(action)))
+                codec.on('rx', r => this.store.dispatch(rx(r)))
                 const register = () => bus.proxy('Device').registerService(this.name)
                 bus.registerListener(`Device.start`, register)
                 bus.on('reconnect', register)

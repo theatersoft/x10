@@ -30,7 +30,21 @@ export const
 
 export const
     RX = 'RX',
-    rx = (type, addr, func) => ({type: RX, rf: type === 'RF', addr, func})
+    rx = ({type, addr, func}) => (dispatch, getState) => {
+        const
+            id = addr,
+            device = getState().devices[id]
+        if (!device) throw `no device for ${id}`
+        switch (interfaceOfType(device.type)) {
+        case Interface.SWITCH_BINARY:
+        case Interface.SENSOR_BINARY:
+            switch (func) {
+            case ON:
+            case OFF:
+                dispatch({type: func, id})
+            }
+        }
+    }
 
 export const
     API = 'API',

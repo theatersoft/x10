@@ -176,9 +176,9 @@ emitter.sendCommand = cmd => {
             })
         )
 }
-emitter.send = (type, id) => {
-    const data = encodeRFUnit(...stringToAddr(id), stringToFunc(type))
-    console.log('send RF', {type, id, data})
+emitter.send = (func, addr) => {
+    const data = encodeRFUnit(...stringToAddr(addr), stringToFunc(func))
+    console.log('send RF', {func, addr, data})
     return new Promise((r, j) =>
         tx.transfer(data,
             err => {
