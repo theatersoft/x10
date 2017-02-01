@@ -14,9 +14,9 @@
     "bus:start": "npm explore @theatersoft/bus -- npm run start",
     "start": "npm run RUN -- dist/start.js",
     "start:dev": "npm run DEVRUN -- dist/start.js",
-    "start:theater": "ssh theater.local 'cd Theatersoft/x10 && npm run start'",
+    "start:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run start'",
     "debug": "npm run BUS -- node --inspect --debug-brk dist/start.js",
-    "debug:theater": "ssh theater.local 'cd Theatersoft/x10 && npm run BUS -- node --inspect --debug-brk dist/start.js'",
+    "debug:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run BUS -- node --inspect --debug-brk dist/start.js'",
     "debug:dev": "npm run DEVBUS -- node --inspect --debug-brk dist/start.js",
     "publish": "node build.js publish"
   },
