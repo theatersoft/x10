@@ -1,17 +1,4 @@
-//import {Type, Interface, interfaceOfType} from '@theatersoft/device'
-export const
-    Interface = {
-        SWITCH_BINARY: 'SwitchBinary',
-        SENSOR_BINARY: 'SensorBinary'
-    },
-    Type = {
-        Switch: 'Switch',
-        MotionSensor: 'MotionSensor'
-    },
-    interfaceOfType = type => ({
-        [Type.Switch]: Interface.SWITCH_BINARY,
-        [Type.MotionSensor]: Interface.SENSOR_BINARY
-    }[type])
+import {Type, Interface, interfaceOfType} from '@theatersoft/device'
 
 export const
     INIT_DEVICES = 'INIT_DEVICES',

@@ -1,6 +1,6 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "",
   "main": "dist/x10.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "RUN": "npm run BUS -- node",
     "build": "time -p node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
-    "link": "npm link; npm link @theatersoft/x10 @theatersoft/bus",
+    "link": "npm link; npm link @theatersoft/x10 @theatersoft/bus @theatersoft/device",
     "bus:start": "npm explore @theatersoft/bus -- npm run start",
     "start": "npm run RUN -- dist/start.js",
     "start:dev": "npm run DEVRUN -- dist/start.js",
@@ -35,6 +35,7 @@
     "rollup": "^0.36.0",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-ignore": "^1.0.3",
+    "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-strip": "^1.1.1",
     "shelljs": "^0.7.4"
   }
