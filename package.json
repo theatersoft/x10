@@ -1,6 +1,6 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "",
   "main": "dist/x10.js",
   "scripts": {
@@ -24,13 +24,13 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@theatersoft/bus": "~1",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
     "usb": "^1.1.2"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-babili": "0.0.3",
-    "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0",
     "remote-redux-devtools": "^0.5.7",
     "rollup": "^0.36.0",
     "rollup-plugin-babel": "^2.6.1",
