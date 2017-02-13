@@ -1,5 +1,6 @@
 import usb from 'usb'
 import {EventEmitter} from '@theatersoft/bus'
+import {log} from './log'
 
 const
     CMD = {
@@ -76,7 +77,7 @@ const
     decodeRF = data => {
         const [x, y, a, _a, b, _b] = data
         if ((a ^ _a) !== 0xff || (b ^ _b) !== 0xff) {
-            console.log('RX RF bad checksum', data)
+            log('RX RF bad checksum', data)
             return
         }
         let house = 0, unit = 0, func
@@ -95,26 +96,26 @@ const
         }
     }
 
-const
-    log = s => {
-        console.log(s);
-        return s
-    },
-    rf = s => {
-        log(decodeRF(log(fromHexString(s))));
-        console.log()
-    },
-    pl = s => {
-        log(decodePL(log(fromHexString(s))));
-        console.log()
-    }
+//const
+//    log = s => {
+//        log(s);
+//        return s
+//    },
+//    rf = s => {
+//        log(decodeRF(log(fromHexString(s))));
+//        log()
+//    },
+//    pl = s => {
+//        log(decodePL(log(fromHexString(s))));
+//        log()
+//    }
 
 //usb.setDebugLevel(4)
 let x10, intf, rx, tx
 const
     emitter = new EventEmitter(),
     init = ({vid = 0x0bc7, pid = 0x0001} = {}) => {
-        console.log('x10 init', vid, pid)
+        log('x10 init', vid, pid)
         x10 = usb.findByIds(vid, pid)
         x10.open()
         intf = x10.interfaces[0]
@@ -123,11 +124,11 @@ const
         tx = intf.endpoint(0x02) // to controller
 
         rx.on('data', data => {
-            console.log('RX', data)
+            log('RX', data)
             let r
             switch (data[0]) {
             case 0x55: // ACK
-                console.log('RX ACK')
+                log('RX ACK')
                 return
             case 0xa5: // set clock
                 send(encodeSetClock())
@@ -140,21 +141,21 @@ const
                 break
             }
             if (r) {
-                console.log('RX', r.type, r.addr, r.func)
+                log('RX', r.type, r.addr, r.func)
                 emitter.emit('rx', r)
             }
         })
-        rx.on('end', () => console.log('RX END'))
-        rx.on('error', err => console.log('RX ERROR', err))
+        rx.on('end', () => log('RX END'))
+        rx.on('error', err => log('RX ERROR', err))
         rx.startPoll()
     },
     send = data => {
-        console.log('TX', data)
-        tx.transfer(data, err => console.log('TX DONE', err || ''))
+        log('TX', data)
+        tx.transfer(data, err => log('TX DONE', err || ''))
     },
     close = () => {
         intf.release(true, err => {
-            if (err) console.log('Interface release error', err)
+            if (err) log('Interface release error', err)
             x10.close()
         })
         return Promise.resolve()
@@ -166,11 +167,11 @@ emitter.sendCommand = cmd => {
     const [match, type, addr, func] = /^(PL|RF)\s([A-P][1-9]|[A-P]1[0-6])\s([A-Z]+)$/.exec(cmd) || []
     if (!match) throw 'invalid command'
     const data = (type === 'PL' ? encodePLUnit : encodeRFUnit)(...stringToAddr(addr), stringToFunc(func))
-    console.log('sendCommand', {type, addr, func, data})
+    log('sendCommand', {type, addr, func, data})
     return new Promise((r, j) =>
         tx.transfer(data,
             err => {
-                console.log('TX DONE', err || '')
+                log('TX DONE', err || '')
                 if (err) j(err)
                 r()
             })
@@ -178,11 +179,11 @@ emitter.sendCommand = cmd => {
 }
 emitter.send = (func, addr) => {
     const data = encodeRFUnit(...stringToAddr(addr), stringToFunc(func))
-    console.log('send RF', {func, addr, data})
+    log('send RF', {func, addr, data})
     return new Promise((r, j) =>
         tx.transfer(data,
             err => {
-                console.log('TX DONE', err || '')
+                log('TX DONE', err || '')
                 err ? j(err) : r()
             })
     )
