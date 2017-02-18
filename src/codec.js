@@ -14,10 +14,10 @@ const
         MACRO: 0xfb
     },
     FUNC = {AOFF: 0, ALON: 1, ON: 2, OFF: 3, DIM: 4, BRIGHT: 5, ALOFF: 6, EXT: 7, HAILREQ: 8, HAILACK: 9, PDIM1: 0xa, PDIM2: 0xb},
-    addrToString = (house, unit) => String.fromCharCode(house + 65) + String.fromCharCode(unit + 49),
+    addrToString = (house, unit) => String.fromCharCode(house + 65) + (unit + 1).toString(),
     funcToString = func => getKeyByValue(FUNC, func) || '???',
     getKeyByValue = (obj, value) => {for (let key of Object.keys(obj)) if (obj[key] === value) return key},
-    stringToAddr = s => ([s.charCodeAt(0) - 65, s.charCodeAt(1) - 49]),
+    stringToAddr = s => ([s.charCodeAt(0) - 65, Number.parseInt(s.slice(1)) - 1]),
     stringToFunc = s => FUNC[s],
     fromHexString = s => Buffer.from(s.split(' ').map(n => Number.parseInt(n, 16)))
 
