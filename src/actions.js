@@ -1,4 +1,5 @@
 import {Type, Interface, interfaceOfType} from '@theatersoft/device'
+import {error} from './log'
 
 export const
     INIT_DEVICES = 'INIT_DEVICES',
@@ -21,7 +22,10 @@ export const
         const
             id = addr,
             device = getState().devices[id]
-        if (!device) throw `no device for ${id}`
+        if (!device) {
+            error(`no device for ${id}`)
+            return
+        }
         switch (interfaceOfType(device.type)) {
         case Interface.SWITCH_BINARY:
         case Interface.SENSOR_BINARY:
