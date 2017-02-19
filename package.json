@@ -1,7 +1,8 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.5.0",
-  "description": "",
+  "version": "1.5.1",
+  "description": "Bus service module for X10 devices",
+  "repository": "theatersoft/x10",
   "main": "dist/x10.js",
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
