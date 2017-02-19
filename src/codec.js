@@ -124,11 +124,11 @@ const
         tx = intf.endpoint(0x02) // to controller
 
         rx.on('data', data => {
-            log('RX', data)
+            //log('RX', data)
             let r
             switch (data[0]) {
             case 0x55: // ACK
-                log('RX ACK')
+                //log('RX ACK')
                 return
             case 0xa5: // set clock
                 send(encodeSetClock())
