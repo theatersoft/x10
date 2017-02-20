@@ -1,4 +1,5 @@
 'use strict'
+require('@theatersoft/bus').setTime(true)
 require('@theatersoft/bus').default.start()
     .then(bus =>
         bus.proxy('Config').get()

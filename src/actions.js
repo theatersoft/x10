@@ -14,10 +14,7 @@ export const
         const
             id = addr,
             device = getState().devices[id]
-        if (!device) {
-            error(`no device for ${id}`)
-            return
-        }
+        if (!device) return error(`no device for ${id}`)
         switch (interfaceOfType(device.type)) {
         case Interface.SWITCH_BINARY:
         case Interface.SENSOR_BINARY:

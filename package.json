@@ -30,6 +30,7 @@
     "usb": "^1.1.2"
   },
   "devDependencies": {
+    "@theatersoft/device": "~1",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-babili": "0.0.3",
     "remote-redux-devtools": "^0.5.7",

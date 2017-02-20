@@ -55,9 +55,7 @@ const targets = {
                     }),
                     DIST && ignore(['remote-redux-devtools']),
                     DIST && strip({functions: ['composeWithDevTools']}),
-                    nodeResolve({
-                        jsnext: true
-                    })
+                    nodeResolve({jsnext: true})
                 ]
             })
             .then(bundle => {
