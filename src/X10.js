@@ -6,6 +6,13 @@ import reducer from './reducer'
 import bus from '@theatersoft/bus'
 import {initDevices, off, rx, api} from './actions'
 
+const dedup = (getState, _state = getState()) => f => (_next = getState()) => {
+    if (_next !== _state) {
+        _state = _next
+        f(_next)
+    }
+}
+
 export class X10 {
     start ({name, config: {vid, pid, devices, remotedev: hostname = 'localhost'}}) {
         this.name = name
@@ -19,8 +26,8 @@ export class X10 {
                 )
                 this.store.dispatch(initDevices(devices))
                 devices.forEach(dev => this.store.dispatch(off(dev.id)))
-                this.store.subscribe(() =>
-                    obj.signal('state', this.store.getState()))
+                this.store.subscribe(dedup(this.store.getState)(state =>
+                    obj.signal('state', state)))
                 codec.init({vid, pid})
                 codec.on('rx', r => this.store.dispatch(rx(r)))
                 const register = () => bus.proxy('Device').registerService(this.name)
