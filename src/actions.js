@@ -1,5 +1,5 @@
 import {Type, Interface, interfaceOfType} from '@theatersoft/device'
-import {error} from './log'
+import {log, error} from './log'
 
 export const
     INIT_DEVICES = 'INIT_DEVICES',
@@ -8,6 +8,10 @@ export const
 import {switchActions} from '@theatersoft/device'
 export const {ON, OFF, on, off} = switchActions
 
+const
+    delay = 60000,
+    throttle = (t1 = 0, t2 = 0) => Math.abs(t1 - t2) < delay
+
 export const
     RX = 'RX',
     rx = ({type, addr, func}) => (dispatch, getState) => {
@@ -15,13 +19,23 @@ export const
             id = addr,
             device = getState().devices[id]
         if (!device) return error(`no device for ${id}`)
-        switch (interfaceOfType(device.type)) {
-        case Interface.SWITCH_BINARY:
-        case Interface.SENSOR_BINARY:
-            switch (func) {
-            case ON:
-            case OFF:
+        switch (func) {
+        case ON:
+        case OFF:
+            switch (interfaceOfType(device.type)) {
+            case Interface.SENSOR_BINARY:
+                const
+                    value = type === ON,
+                    time = Date.now()
+                if (value === device.value && throttle(time, device.time)) {
+                    log('throttle', time, device.time)
+                    break
+                }
+                dispatch({type: func, id, time})
+                break
+            case Interface.SWITCH_BINARY:
                 dispatch({type: func, id})
+                break
             }
         }
     }
