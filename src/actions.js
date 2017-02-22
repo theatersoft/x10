@@ -13,13 +13,13 @@ const
     throttle = (t1 = 0, t2 = 0) => Math.abs(t1 - t2) < delay
 
 export const
-    RX = 'RX',
-    rx = ({type, addr, func}) => (dispatch, getState) => {
+    rx = ({type: rf, addr, func: type}) => (dispatch, getState) => {
         const
             id = addr,
             device = getState().devices[id]
+        let action
         if (!device) return error(`no device for ${id}`)
-        switch (func) {
+        switch (type) {
         case ON:
         case OFF:
             switch (interfaceOfType(device.type)) {
@@ -27,21 +27,21 @@ export const
                 const
                     value = type === ON,
                     time = Date.now()
-                if (value === device.value && throttle(time, device.time)) {
-                    log('throttle', time, device.time)
-                    break
-                }
-                dispatch({type: func, id, time})
+                if (value !== device.value && !throttle(time, device.time))
+                    action = {type, id, time}
                 break
             case Interface.SWITCH_BINARY:
-                dispatch({type: func, id})
+                action = {type, id}
                 break
             }
+        }
+        if (action) {
+            log('RX', rf, addr, type)
+            dispatch(action)
         }
     }
 
 export const
-    API = 'API',
     api = action => (dispatch, getState, {codec}) => {
         const
             {id, type} = action,

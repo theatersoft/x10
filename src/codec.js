@@ -141,7 +141,7 @@ const
                 break
             }
             if (r) {
-                log('RX', r.type, r.addr, r.func)
+                //log('RX', r.type, r.addr, r.func)
                 emitter.emit('rx', r)
             }
         })
