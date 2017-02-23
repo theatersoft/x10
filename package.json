@@ -4,6 +4,7 @@
   "description": "Bus service module for X10 devices",
   "repository": "theatersoft/x10",
   "main": "dist/x10.js",
+  "engines" : { "node" : ">=7.6.0" },
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
     "DEVBUS": "BUS=`[ -f .dev.bus ] && cat .dev.bus` AUTH=`[ -f .dev.auth ] && cat .dev.auth`",
@@ -16,9 +17,9 @@
     "start": "npm run RUN -- dist/start.js",
     "start:dev": "npm run DEVRUN -- dist/start.js",
     "start:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run start'",
-    "debug": "npm run BUS -- node --inspect --debug-brk dist/start.js",
-    "debug:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run BUS -- node --inspect --debug-brk dist/start.js'",
-    "debug:dev": "npm run DEVBUS -- node --inspect --debug-brk dist/start.js",
+    "debug": "npm run BUS -- node --inspect-brk dist/start.js",
+    "debug:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run BUS -- node --inspect-brk dist/start.js'",
+    "debug:dev": "npm run DEVBUS -- node --inspect-brk dist/start.js",
     "publish": "node build.js publish"
   },
   "author": "Rob Huehn <rob@theatersoft.com>",
