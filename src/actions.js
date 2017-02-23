@@ -27,7 +27,7 @@ export const
                 const
                     value = type === ON,
                     time = Date.now()
-                if (value !== device.value && !throttle(time, device.time))
+                if (value !== device.value || !throttle(time, device.time))
                     action = {type, id, time}
                 break
             case Interface.SWITCH_BINARY:
