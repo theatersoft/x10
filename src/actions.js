@@ -46,7 +46,7 @@ export const
         const
             {id, type} = action,
             device = getState().devices[id]
-        if (!device) throw `no device for ${action}`
+        if (!device) return error(`no device for ${action}`)
         if (interfaceOfType(device.type) === Interface.SWITCH_BINARY) {
             switch (type) {
             case ON:
