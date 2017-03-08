@@ -58,7 +58,7 @@ const targets = {
                     nodeResolve({jsnext: true})
                 ]
             })
-            .then(bundle => {
+            .then(bundle =>
                 bundle.write({
                         dest: `dist/${name}.js`,
                         format: 'cjs',
@@ -67,7 +67,7 @@ const targets = {
                         sourceMap: DIST ? false : 'inline'
                     })
                     .then(() => console.log(`wrote dist/${name}.js`))
-            })
+            )
     },
 
     package () {
