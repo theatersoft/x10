@@ -71,10 +71,12 @@ const targets = {
     },
 
     package () {
-        const p = Object.entries(pkg).reduce((o, [k, v]) => {
-            if (!['private', 'devDependencies', 'scripts'].includes(k)) o[k] = v
-            return o
-        }, {})
+        const p = Object.assign({}, pkg, {
+            private: !DIST,
+            devDependencies: undefined,
+            distScripts: undefined,
+            scripts: pkg.distScripts
+        })
         fs.writeFileSync('dist/package.json', JSON.stringify(p, null, '  '), 'utf-8')
         exec('sed -i "s|dist/||g" dist/package.json ')
         exec('cp LICENSE README.md start.js dist')
