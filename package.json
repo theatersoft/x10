@@ -1,9 +1,9 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Bus service module for X10 devices",
   "repository": "theatersoft/x10",
-  "main": "dist/x10.js",
+  "main": "x10.js",
   "engines" : { "node" : ">=7.6.0" },
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
@@ -12,7 +12,7 @@
     "RUN": "npm run BUS -- node",
     "build": "time -p node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
-    "link": "npm link; npm link @theatersoft/x10 @theatersoft/bus @theatersoft/device",
+    "link": "(cd dist; npm link); npm link @theatersoft/x10 @theatersoft/bus @theatersoft/device",
     "bus:start": "npm explore @theatersoft/bus -- npm run start",
     "start": "npm run RUN -- dist/start.js",
     "start:dev": "npm run DEVRUN -- dist/start.js",
@@ -24,7 +24,7 @@
   },
   "author": "Rob Huehn <rob@theatersoft.com>",
   "license": "AGPL-3.0",
-  "dependencies": {
+  "distDependencies": {
     "@theatersoft/bus": "~1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
