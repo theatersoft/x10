@@ -12,7 +12,7 @@
     "RUN": "npm run BUS -- node",
     "build": "time -p node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
-    "link": "(cd dist; npm link); npm link @theatersoft/x10 @theatersoft/bus @theatersoft/device",
+    "link": "(cd dist; npm link); npm link @theatersoft/x10 @theatersoft/device; cd dist; npm link @theatersoft/bus",
     "bus:start": "npm explore @theatersoft/bus -- npm run start",
     "start": "npm run RUN -- dist/start.js",
     "start:dev": "npm run DEVRUN -- dist/start.js",
