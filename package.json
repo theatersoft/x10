@@ -1,10 +1,12 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Bus service module for X10 devices",
   "repository": "theatersoft/x10",
   "main": "x10.js",
-  "engines" : { "node" : ">=7.6.0" },
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "scripts": {
     "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
     "DEVBUS": "BUS=`[ -f .dev.bus ] && cat .dev.bus` AUTH=`[ -f .dev.auth ] && cat .dev.auth`",
@@ -35,7 +37,7 @@
     "@theatersoft/device": "~1",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-babili": "0.0.3",
-    "rollup": "^0.36.0",
+    "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-ignore": "^1.0.3",
     "rollup-plugin-node-resolve": "^2.0.0",
