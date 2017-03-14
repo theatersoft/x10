@@ -8,8 +8,8 @@
     "node": ">=7.6.0"
   },
   "scripts": {
-    "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
-    "DEVBUS": "BUS=`[ -f .dev.bus ] && cat .dev.bus` AUTH=`[ -f .dev.auth ] && cat .dev.auth`",
+    "BUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
+    "DEVBUS": "env $(cat .bus | xargs)",
     "DEVRUN": "npm run DEVBUS -- node",
     "RUN": "npm run BUS -- node",
     "build": "time -p node build.js && ls -l dist",

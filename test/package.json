@@ -1,9 +1,9 @@
 {
-  "name": "x10-test",
+  "name": "test",
   "version": "1.0.0",
   "author": "Rob Huehn <rob@theatersoft.com>",
   "scripts": {
-    "BUS": "BUS=`[ -f .bus ] && cat .bus` AUTH=`[ -f .auth ] && cat .auth`",
+    "BUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
     "DEBUG": "npm run BUS -- node --inspect-brk",
     "RUN": "npm run BUS -- node",
     "rf-a2-on": "npm run RUN -- rf-a2-on.js",

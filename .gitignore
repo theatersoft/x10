@@ -4,4 +4,5 @@
 /test/pub/test.js
 /_*
 .idea
+.bus
 *.log
