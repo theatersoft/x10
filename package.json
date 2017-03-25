@@ -16,8 +16,8 @@
     "publish": "node build.js publish"
   },
   "distScripts": {
-    "BUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
-    "DEVBUS": "env $(cat .bus | xargs)",
+    "BUS": "env $(cat /opt/theatersoft/.config/theatersoft/.bus | xargs)",
+    "DEVBUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
     "DEVRUN": "npm run DEVBUS -- node",
     "RUN": "npm run BUS -- node",
     "start": "npm run RUN -- start.js",
