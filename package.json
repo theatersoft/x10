@@ -11,8 +11,8 @@
     "build": "time -p node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
     "link": "(cd dist; npm link); npm link @theatersoft/x10 @theatersoft/device; cd dist; npm link @theatersoft/bus",
-    "start:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run start'",
-    "debug:theater": "ssh -tt theater.local 'cd Theatersoft/x10; npm run BUS -- node --inspect-brk dist/start.js'",
+    "start:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run start'",
+    "debug:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run start'",
     "publish": "node build.js publish"
   },
   "distScripts": {
