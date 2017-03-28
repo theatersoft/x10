@@ -2,12 +2,18 @@ import {Type, Interface, interfaceOfType} from '@theatersoft/device'
 import {log, error} from './log'
 
 const
-    reorder = arr => arr.map(({name, value, type, id}) => ({name, value, type, id})),
-    index = arr => arr.reduce((o, e) => (o[e.id] = e, o), {})
+    reorder = a => a.map(({name, value, type, id}) => ({name, value, type, id})),
+    index = a => a.reduce((o, e) => (o[e.id] = e, o), {}),
+    virtualVT38A = (e, a) => e.model === 'VT38A' && a.push({
+        name: `${e.name} Motion`,
+        type: Type.MotionSensor,
+        id: `${e.id}.0`
+    }),
+    virtualize = devices => devices.concat(devices.reduce((a, e) => (virtualVT38A(e, a), a), []))
 
 export const
     INIT_DEVICES = 'INIT_DEVICES',
-    initDevices = devices => ({type: INIT_DEVICES, devices: index(reorder(devices))})
+    initDevices = devices => ({type: INIT_DEVICES, devices: index(reorder(virtualize(devices)))})
 
 import {switchActions} from '@theatersoft/device'
 export const {ON, OFF, on, off} = switchActions
