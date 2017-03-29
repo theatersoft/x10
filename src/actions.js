@@ -19,8 +19,7 @@ import {switchActions} from '@theatersoft/device'
 export const {ON, OFF, on, off} = switchActions
 
 const
-    delay = 60000,
-    throttle = (t1 = 0, t2 = 0) => Math.abs(t1 - t2) < delay
+    throttle = (t1 = 0, t2 = 0, delay = 60000) => Math.abs(t1 - t2) < delay
 
 export const
     rx = ({type: rf, addr, func: type}) => (dispatch, getState) => {
@@ -32,16 +31,21 @@ export const
         switch (type) {
         case ON:
         case OFF:
+            const
+                value = type === ON,
+                time = Date.now()
             switch (interfaceOfType(device.type)) {
             case Interface.SENSOR_BINARY:
-                const
-                    value = type === ON,
-                    time = Date.now()
                 if (value !== device.value || !throttle(time, device.time))
                     action = {type, id, time}
                 break
             case Interface.SWITCH_BINARY:
-                action = {type, id}
+                const
+                    virtual = getState().devices[`${id}.0`],
+                    virtualAction = virtual && !throttle(time, device.time, 4000) && {type, id: virtual.id, time},
+                    virtualOff = () => dispatch({type: OFF, id: virtual.id, time: Date.now()})
+                virtualAction && value && setTimeout(virtualOff, 65000) // in case rx off is lost or throttled
+                action = virtualAction || {type, id}
                 break
             }
         }
@@ -61,8 +65,9 @@ export const
             switch (type) {
             case ON:
             case OFF:
+                const virtual = getState().devices[`${id}.0`]
+                dispatch({...action, ...virtual && {time: Date.now()}})
                 codec.send(type, id)
-                dispatch(action)
             }
         }
     }
