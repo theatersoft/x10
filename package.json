@@ -1,6 +1,6 @@
 {
   "name": "@theatersoft/x10",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "Bus service module for X10 devices",
   "repository": "theatersoft/x10",
   "main": "x10.js",

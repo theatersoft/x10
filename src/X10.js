@@ -14,14 +14,14 @@ const dedup = (getState, _state = getState()) => f => (_next = getState()) => {
 }
 
 export class X10 {
-    start ({name, config: {vid, pid, devices, remotedev: hostname = 'localhost'}}) {
+    start ({name, config: {vid, pid, devices, remotedev}}) {
         this.name = name
         return bus.registerObject(name, this)
             .then(obj => {
                 this.store = createStore(
                     reducer,
                     {devices: {}},
-                    (composeWithDevTools({name: 'X10', realtime: true, port: 6400, hostname}) || (x => x))
+                    (remotedev && composeWithDevTools({name: 'X10', realtime: true, port: 6400, hostname: remotedev}) || (x => x))
                     (applyMiddleware(thunk.withExtraArgument({codec})))
                 )
                 this.store.dispatch(initDevices(devices))
