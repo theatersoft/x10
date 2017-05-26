@@ -6,7 +6,7 @@ import reducer from './reducer'
 import bus from '@theatersoft/bus'
 import {initDevices, off, rx, api} from './actions'
 
-const dedup = (getState, _state = getState()) => f => (_next = getState()) => {
+const dedup = (getState, _state = {}) => f => (_next = getState()) => {
     if (_next !== _state) {
         _state = _next
         f(_next)
