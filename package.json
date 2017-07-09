@@ -7,6 +7,8 @@
   "engines": {
     "node": ">=7.6.0"
   },
+  "author": "Rob Huehn <rob@theatersoft.com>",
+  "license": "AGPL-3.0",
   "scripts": {
     "build": "node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
@@ -15,24 +17,25 @@
     "debug:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run debug'",
     "publish": "node build.js publish"
   },
-  "distScripts": {
-    "BUS": "env $(cat /opt/theatersoft/.config/theatersoft/.bus | xargs)",
-    "DEVBUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
-    "DEVRUN": "npm run DEVBUS -- node",
-    "RUN": "npm run BUS -- node",
-    "start": "npm run RUN -- start.js",
-    "start:dev": "npm run DEVRUN -- start.js",
-    "debug": "npm run BUS -- node --inspect-brk start.js",
-    "debug:dev": "npm run DEVBUS -- node --inspect-brk start.js"
-  },
-  "author": "Rob Huehn <rob@theatersoft.com>",
-  "license": "AGPL-3.0",
-  "distDependencies": {
-    "@theatersoft/bus": "~1",
-    "redux": "^3.6.0",
-    "redux-thunk": "^2.1.0",
-    "remote-redux-devtools": "^0.5.7",
-    "usb": "^1.1.2"
+  "dist": {
+    "dependencies": {
+      "@theatersoft/bus": "~1",
+      "redux": "^3.6.0",
+      "redux-thunk": "^2.1.0",
+      "remote-redux-devtools": "^0.5.7",
+      "usb": "^1.1.2"
+    },
+    "devDependencies": {},
+    "scripts": {
+      "BUS": "env $(cat /opt/theatersoft/.config/theatersoft/.bus | xargs)",
+      "DEVBUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
+      "DEVRUN": "npm run DEVBUS -- node",
+      "RUN": "npm run BUS -- node",
+      "start": "npm run RUN -- start.js",
+      "start:dev": "npm run DEVRUN -- start.js",
+      "debug": "npm run BUS -- node --inspect-brk start.js",
+      "debug:dev": "npm run DEVBUS -- node --inspect-brk start.js"
+    }
   },
   "devDependencies": {
     "@theatersoft/device": "~1",
