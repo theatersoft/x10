@@ -1,5 +1,5 @@
 import {h, Component} from 'preact'
-import {ListItem, Switch} from '@theatersoft/components'
+import {ListItem, Switch, Subheader} from '@theatersoft/components'
 import {proxy} from '@theatersoft/bus'
 import {connect} from './redux'
 
@@ -38,24 +38,24 @@ export const ServiceSettings = (ComposedComponent, props) => connect(mapState, m
 })
 
 export const DeviceSettings = (ComposedComponent, props) => connect(mapState, mapDispatch)(class DeviceSettings extends Component {
-    onClick = e => {
+    render ({id, devices, settings}) {
+        if (!id) return null
         const
-            [, service, id] = /^([^\.]+)\.([^]+)$/.exec(e.currentTarget.dataset.id),
-            value = this.props[service][id]
-        this.props.dispatch[service]({[id]: !value})
-    }
-
-    onChange = (value, e) => this.onClick(e)
-
-    render ({settings}) {
-        const
-            item = (label, value, id) =>
-                <ListItem label={label}>
-                    <Switch checked={value} data-id={id} onChange={this.onChange}/>
-                </ListItem>
+            [, service, _id] = /^([^\.]+)\.([^]+)$/.exec(id),
+            device = devices[id],
+            {name, value, type} = device
         return (
             <ComposedComponent {...props}>
-                <Subheader label="X10 device"/>
+                <Subheader label="Service"/>
+                <ListItem label={service}/>
+                <Subheader label="Type"/>
+                <ListItem label={type}/>
+                <Subheader label="ID"/>
+                <ListItem label={_id}/>
+                <Subheader label="Name"/>
+                <ListItem label={name}/>
+                <Subheader label="Value"/>
+                <ListItem label={String(value)}/>
             </ComposedComponent>
         )
     }
