@@ -36,3 +36,27 @@ export const ServiceSettings = (ComposedComponent, props) => connect(mapState, m
         )
     }
 })
+
+export const DeviceSettings = (ComposedComponent, props) => connect(mapState, mapDispatch)(class DeviceSettings extends Component {
+    onClick = e => {
+        const
+            [, service, id] = /^([^\.]+)\.([^]+)$/.exec(e.currentTarget.dataset.id),
+            value = this.props[service][id]
+        this.props.dispatch[service]({[id]: !value})
+    }
+
+    onChange = (value, e) => this.onClick(e)
+
+    render ({settings}) {
+        const
+            item = (label, value, id) =>
+                <ListItem label={label}>
+                    <Switch checked={value} data-id={id} onChange={this.onChange}/>
+                </ListItem>
+        return (
+            <ComposedComponent {...props}>
+                <Subheader label="X10 device"/>
+            </ComposedComponent>
+        )
+    }
+})
