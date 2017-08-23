@@ -36,8 +36,10 @@ export const
                 time = Date.now()
             switch (interfaceOfType(device.type)) {
             case Interface.SENSOR_BINARY:
-                if (value !== device.value || !throttle(time, device.time))
+                if (value !== device.value || !throttle(time, device.time)) {
+                    value && setTimeout(() => dispatch({type: OFF, id, time: Date.now()}), 65000) // in case rx off is lost or throttled
                     action = {type, id, time}
+                }
                 break
             case Interface.SWITCH_BINARY:
                 const
