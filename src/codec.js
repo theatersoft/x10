@@ -175,18 +175,19 @@ emitter.sendCommand = cmd => {
                 if (err) j(err)
                 r()
             })
-        )
+    )
 }
 emitter.send = (func, addr) => {
     const data = encodeRFUnit(...stringToAddr(addr), stringToFunc(func))
     log('send RF', {func, addr, data})
-    return new Promise((r, j) =>
+    return new Promise((r, j) => {
+        log('TX', data)
         tx.transfer(data,
             err => {
                 log('TX DONE', err || '')
                 err ? j(err) : r()
             })
-    )
+    })
 }
 
 export default emitter

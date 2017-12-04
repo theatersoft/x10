@@ -67,9 +67,11 @@ export const
             switch (type) {
             case ON:
             case OFF:
-                const virtual = getState().devices[`${id}.0`]
-                dispatch({...action, ...virtual && {time: Date.now()}})
-                codec.send(type, id)
+                return codec.send(type, id)
+                    .then(() => {
+                        const virtual = getState().devices[`${id}.0`]
+                        dispatch({...action, ...virtual && {time: Date.now()}})
+                    })
             }
         }
     }
