@@ -177,17 +177,28 @@ emitter.sendCommand = cmd => {
             })
     )
 }
+
+let current
+const delay = () => new Promise(r => setTimeout(r, 1000))
+
 emitter.send = (func, addr) => {
     const data = encodeRFUnit(...stringToAddr(addr), stringToFunc(func))
     log('send RF', {func, addr, data})
-    return new Promise((r, j) => {
+    const next = () => (new Promise((r, j) => {
         log('TX', data)
         tx.transfer(data,
             err => {
-                log('TX DONE', err || '')
+                log('TX DONE', data, err || '')
                 err ? j(err) : r()
             })
+    }))
+        .then(delay)
+    const p = current ? current.then(next) : next()
+    p.then(() => {
+        if (current === p) current = undefined
     })
+    current = p
+    return current
 }
 
 export default emitter
