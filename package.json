@@ -13,7 +13,7 @@
   "scripts": {
     "build": "node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
-    "link": "npm link @theatersoft/device",
+    "link": "npm link --no-package-lock @theatersoft/device",
     "start:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run start'",
     "debug:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run debug'",
     "publish": "node build.js publish",
@@ -33,7 +33,7 @@
       "DEVBUS": "env $(cat ~/.config/theatersoft/.bus | xargs)",
       "DEVRUN": "npm run DEVBUS -- node",
       "RUN": "npm run BUS -- node",
-      "link": "npm link; npm link @theatersoft/bus @theatersoft/x10",
+      "link": "npm link --no-package-lock; npm link --no-package-lock @theatersoft/bus @theatersoft/x10",
       "start": "npm run RUN -- start.js",
       "start:dev": "npm run DEVRUN -- start.js",
       "debug": "npm run BUS -- node --inspect-brk start.js",
