@@ -13,7 +13,7 @@
   "scripts": {
     "build": "node build.js && ls -l dist",
     "build:dist": "DIST=true npm run build",
-    "link": "npm link @theatersoft/x10 @theatersoft/device",
+    "link": "npm link @theatersoft/device",
     "start:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run start'",
     "debug:theater": "ssh -tt theater.local 'cd /opt/theatersoft; npm explore @theatersoft/x10 npm run debug'",
     "publish": "node build.js publish",
