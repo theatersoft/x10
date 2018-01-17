@@ -56,15 +56,13 @@ Actions control devices through the `X10.dispatch (action :Action)` API. Within 
 as `{type: "ON", id: "A3"}`. (Applications normally invoke actions indirectly through the `device` module, so the `id`
 would actually be `X10.A3`.)
 
-State is accessed by listening to state signals on the `x10` bus service object. State has the form:
-```json
-{
-    devices: {
+State is accessed by listening to state signals on the `x10` bus service object. A device state has the form:
+```
+    "X10.A3" : {
         name: "Garage",
         value: false,
         type: "Switch",
         id: "X10.A3",
         time: 1516156060728
     }
-}
 ```
