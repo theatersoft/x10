@@ -1,6 +1,7 @@
 import {h, Component} from 'preact'
 import {ListItem, Switch, Subheader} from '@theatersoft/components'
 import {proxy} from '@theatersoft/bus'
+import {serviceId} from '@theatersoft/device'
 import {connect} from './redux'
 
 const Settings = proxy('Settings')
@@ -17,7 +18,7 @@ const
 export const ServiceSettings = (ComposedComponent, props) => connect(mapState, mapDispatch)(class ServiceSettings extends Component {
     onClick = e => {
         const
-            [, service, id] = /^([^\.]+)\.([^]+)$/.exec(e.currentTarget.dataset.id),
+            [service, id] = serviceId(e.currentTarget.dataset.id),
             value = this.props[service][id]
         this.props.dispatch[service]({[id]: !value})
     }
@@ -41,7 +42,7 @@ export const DeviceSettings = (ComposedComponent, props) => connect(mapState, ma
     render ({id, devices, settings}) {
         if (!id) return null
         const
-            [, service, _id] = /^([^\.]+)\.([^]+)$/.exec(id),
+            [service, _id] = serviceId(id),
             device = devices[id],
             {name, value, type} = device
         return (
