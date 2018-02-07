@@ -6,7 +6,7 @@
   "main": "x10.js",
   "module": "x10.es.js",
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=8.5.0"
   },
   "author": "Rob Huehn <rob@theatersoft.com>",
   "license": "AGPL-3.0",
