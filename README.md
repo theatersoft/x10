@@ -66,3 +66,8 @@ State is accessed by listening to state signals on the `x10` bus service object.
         time: 1516156060728
     }
 ```
+
+## Virtual motion sensor device for VT38A Floodlight
+Since this device reports its motion status on the same address that controls it, any motion state would normally only affect the switch state. Instead, add `"model": "VT38A"` to the device config to enable special handling: 
+* automatically create an associated virtual `MotionSensor` device e.g. `X10.A3.0`
+* discriminate incoming commands between motion reports that update virtual device state and switch commands that update switch state
